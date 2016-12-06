@@ -33,6 +33,10 @@ public class CameraManagers : MonoBehaviour
         Vector3 rightbound = target.head.transform.position + new Vector3(2f, 2f, 2f);
 
 
+        Vector3 angleLeftBound = target.head.transform.eulerAngles - new Vector3(20f, 20f, 20f);
+        Vector3 angleRightBound = target.head.transform.eulerAngles + new Vector3(20f, 20f, 20f);
+
+
         transform.DOMove(target.head.transform.position, 3f);
         transform.DORotate(target.head.transform.rotation.eulerAngles, 2f);
         Debug.Log(target.head.transform.rotation);
@@ -40,7 +44,9 @@ public class CameraManagers : MonoBehaviour
         {
             yield return null;
             if ((transform.position.x >= leftbound.x && transform.position.y >= leftbound.y && transform.position.z >= leftbound.z)
-                && (transform.position.x <= rightbound.x && transform.position.y <= rightbound.y && transform.position.z <= rightbound.z) && transform.eulerAngles == target.head.transform.eulerAngles)
+                && (transform.position.x <= rightbound.x && transform.position.y <= rightbound.y && transform.position.z <= rightbound.z)
+                && (transform.eulerAngles.x >= angleLeftBound.x && transform.eulerAngles.y >= angleLeftBound.y && transform.eulerAngles.z >= angleLeftBound.z) 
+                && (transform.eulerAngles.x <= angleRightBound.x && transform.eulerAngles.y <= angleRightBound.y && transform.eulerAngles.z <= angleRightBound.z))
             {
                 ready = true;
                 yield break;
