@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public enum gamestate
 {
@@ -24,19 +25,28 @@ public class PlayerController : MonoBehaviour
     gamestate state;
     List<KeyValuePair<gamestate, gamestate>> states = new List<KeyValuePair<gamestate, gamestate>>();
 
-
+    void Init()
+    {
+        
+            cam = FindObjectOfType<CameraManagers>();
+            player1 = GameObject.Find("BluePlayer").GetComponent<Player>();
+            player2 = GameObject.Find("RedPlayer").GetComponent<Player>();
+        
+    }
 
     void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+
+        
+
         switchingit = false;
         states.Add(new KeyValuePair<gamestate, gamestate>(gamestate.init, gamestate.p1active));
         states.Add(new KeyValuePair<gamestate, gamestate>(gamestate.p1active, gamestate.switching));
         states.Add(new KeyValuePair<gamestate, gamestate>(gamestate.switching, gamestate.p1active));
         states.Add(new KeyValuePair<gamestate, gamestate>(gamestate.p2active, gamestate.switching));
         states.Add(new KeyValuePair<gamestate, gamestate>(gamestate.switching, gamestate.p2active));
-        cam = FindObjectOfType<CameraManagers>();
 
+        Init();
     }
     // Use this for initialization
     void Start()
@@ -48,39 +58,43 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         
-        switch (state)
+
+        if (GameManager.Instance.state == game.game)
         {
-            case gamestate.init:
-                if (!switchingit)
-                StartCoroutine(Switchme());
-                break;
-            case gamestate.p1active:
-                if (Inputs.A_Button() && GameManager.Instance.state == game.game)
-                    Transition(gamestate.switching);
-                setP1Active();
-                break;
+            switch (state)
+            {
+                case gamestate.init:
+                    if (!switchingit)
+                        StartCoroutine(Switchme());
+                    break;
+                case gamestate.p1active:
+                    if (Inputs.A_Button())
+                        Transition(gamestate.switching);
+                    setP1Active();
+                    break;
 
-            case gamestate.p2active:
-                if (Inputs.A_Button() && GameManager.Instance.state == game.game)
-                    Transition(gamestate.switching);
-                setP2Active();
-                break;
+                case gamestate.p2active:
+                    if (Inputs.A_Button())
+                        Transition(gamestate.switching);
+                    setP2Active();
+                    break;
 
-            case gamestate.switching:
-                if (!switchingit)
-                    StartCoroutine(Switchme());
-                break;
+                case gamestate.switching:
+                    if (!switchingit)
+                        StartCoroutine(Switchme());
+                    break;
+            }
+
         }
-
-
     }
 
+   
 
     IEnumerator Switchme()
     {
         switchingit = true;
 
-
+        yield return new WaitForSeconds(.1f);
 
         if (player1.currentstate == playerstate.active)
         {
@@ -113,7 +127,7 @@ public class PlayerController : MonoBehaviour
 
         if (state == gamestate.init)
         {
-           
+
 
             if (player2.currentstate == playerstate.init)
             {
