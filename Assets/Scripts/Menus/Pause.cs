@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 
 public class Pause : MonoBehaviour {
 
@@ -25,6 +26,16 @@ public class Pause : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            if (!isPaused)
+            {
+                DOTween.PauseAll();
+            }
+
+            if (isPaused)
+            {
+                DOTween.PlayAll();
+                
+            }
             isPaused = !isPaused;
             UpdateManagerState();
             UpdateDisplay();
@@ -39,12 +50,20 @@ public class Pause : MonoBehaviour {
 
     private void UpdateManagerState()
     {
+        if (isPaused)
+            GameManager.Instance.state = game.pause;
+
+        if (!isPaused)
+            GameManager.Instance.state = game.game;
         //Change manager state here
     }
 
     public void Resume()
     {
+
+
         isPaused = false;
+        GameManager.Instance.state = game.game;
         UpdateDisplay();
         UpdateManagerState();
     }

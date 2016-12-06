@@ -28,9 +28,9 @@ public class CameraManagers : MonoBehaviour
     {
         
         ready = false;
-        Vector3 leftbound = target.head.transform.position - new Vector3(.4f, .7f, .4f);
+        Vector3 leftbound = target.head.transform.position - new Vector3(2f, 2f, 2f);
 
-        Vector3 rightbound = target.head.transform.position + new Vector3(.4f, .7f, .4f);
+        Vector3 rightbound = target.head.transform.position + new Vector3(2f, 2f, 2f);
 
 
         transform.DOMove(target.head.transform.position, 3f);

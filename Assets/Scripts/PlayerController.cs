@@ -55,13 +55,13 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(Switchme());
                 break;
             case gamestate.p1active:
-                if (Inputs.A_Button())
+                if (Inputs.A_Button() && GameManager.Instance.state == game.game)
                     Transition(gamestate.switching);
                 setP1Active();
                 break;
 
             case gamestate.p2active:
-                if (Inputs.A_Button())
+                if (Inputs.A_Button() && GameManager.Instance.state == game.game)
                     Transition(gamestate.switching);
                 setP2Active();
                 break;

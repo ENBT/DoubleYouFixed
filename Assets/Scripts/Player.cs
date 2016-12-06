@@ -13,7 +13,7 @@ public enum playerstate
 public class Player : MonoBehaviour
 {
 
-    
+
     public GameObject head;
     [SerializeField]
     float maxrot;
@@ -64,20 +64,29 @@ public class Player : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+
     {
-        switch (currentstate)
+        switch (GameManager.Instance.state)
         {
-            case playerstate.active:
-                Controls();
-                break;
 
-            case playerstate.inactive:
-                break;
+            case game.game:
+                switch (currentstate)
+                {
+                    case playerstate.active:
+                        Controls();
+                        break;
 
-            case playerstate.init:
-                StartCoroutine(SetMeUp());
+                    case playerstate.inactive:
+                        break;
+
+                    case playerstate.init:
+                        StartCoroutine(SetMeUp());
+                        break;
+                }
                 break;
         }
+        
+
     }
 
     IEnumerator SetMeUp()
@@ -99,15 +108,15 @@ public class Player : MonoBehaviour
     void CheckInteractions()
     {
 
-        interactable = Physics.SphereCast(head.transform.position, .3f, head.transform.TransformDirection(new Vector3(0,0,.001f)), out obj, 1f, 1 << LayerMask.NameToLayer("Interactables"));
-        
+        interactable = Physics.SphereCast(head.transform.position, .3f, head.transform.TransformDirection(new Vector3(0, 0, .001f)), out obj, 1f, 1 << LayerMask.NameToLayer("Interactables"));
+
         if (!interactable)
             interactobj = null;
-        
+
 
         if (obj.transform != null)
         {
-                interactobj = obj.transform.GetComponent<InteractableObject>();   
+            interactobj = obj.transform.GetComponent<InteractableObject>();
         }
         if (interactobj != null && interactobj.isActive)
         {
@@ -122,7 +131,7 @@ public class Player : MonoBehaviour
             {
                 interactobj.StopInteract();
                 interacting = false;
-                
+
             }
         }
         else if (!interacting && interactobj != null && Inputs.B_Button())
@@ -145,7 +154,7 @@ public class Player : MonoBehaviour
                     Debug.Log("Unknown Object Type");
                     break;
             }
-            
+
         }
 
 

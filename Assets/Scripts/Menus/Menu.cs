@@ -21,24 +21,31 @@ public class Menu : MonoBehaviour {
 
     public void StartLevel()
     {
+        GameManager.Instance.state = game.game;
         SceneManager.LoadScene("Level1");
+        
         //Change game manager state here
     }
 
     public void MainMenu()
     {
+        GameManager.Instance.state = game.mainmenu;
         SceneManager.LoadScene("MainMenu");
         //Change game manager state here
     }
 
     public void Credits()
     {
+
+        GameManager.Instance.state = game.credits;
         SceneManager.LoadScene("Credits");
         //Change game manager state here
     }
 
     public void RestartLevel()
     {
+
+        GameManager.Instance.state = game.game;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         //Change game manager state here
     }
