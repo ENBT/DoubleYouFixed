@@ -63,6 +63,7 @@ public class Pause : MonoBehaviour {
 
 
         isPaused = false;
+        DOTween.PlayAll();
         GameManager.Instance.state = game.game;
         UpdateDisplay();
         UpdateManagerState();
